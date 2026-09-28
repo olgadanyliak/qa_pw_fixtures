@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 export function generateNewArticleData(logger, { tagsCount = 0 } = {}) {
-  return {
+  const article = {
     title: faker.lorem.sentence(3),
     description: faker.lorem.sentence(5),
     text: faker.lorem.paragraph(),
