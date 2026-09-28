@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 
 type ArticleFixtures = {
   createArticlePage: CreateArticlePage;
@@ -22,27 +23,16 @@ export const test = base.extend<ArticleFixtures>({
   viewArticlePage: async ({ page }, use) => {
     await use(new ViewArticlePage(page));
   },
-  articleWithoutTags: async ({}, use) => {
-    await use({
-      title: `Article ${Date.now()}`,
-      description: 'Test description',
-      text: 'Test article body',
-    });
+  articleWithoutTags: async ({ logger }: any, use) => {
+    const article = generateNewArticleData(logger, { tagsCount: 0 });
+    await use(article);
   },
-  articleWithOneTag: async ({}, use) => {
-    await use({
-      title: `Article ${Date.now()}`,
-      description: 'Test description',
-      text: 'Test article body',
-      tags: ['tag1'],
-    });
+  articleWithOneTag: async ({ logger }: any, use) => {
+    const article = generateNewArticleData(logger, { tagsCount: 1 });
+    await use(article);
   },
-  articleWithTwoTags: async ({}, use) => {
-    await use({
-      title: `Article ${Date.now()}`,
-      description: 'Test description',
-      text: 'Test article body',
-      tags: ['tag1', 'tag2'],
-    });
+  articleWithTwoTags: async ({ logger }: any, use) => {
+    const article = generateNewArticleData(logger, { tagsCount: 2 });
+    await use(article);
   },
 });
